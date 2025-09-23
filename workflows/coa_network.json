@@ -1,0 +1,88 @@
+{
+  "name": "Black-Market-COA Orchestrator",
+  "nodes": [
+    {
+      "id": "1",
+      "name": "Main Orchestrator",
+      "type": "n8n-nodes-base.httpTrigger",
+      "parameters": {
+        "path": "orchestrator",
+        "methods": ["POST"]
+      }
+    },
+    {
+      "id": "2",
+      "name": "AI Crop Planning",
+      "type": "n8n-nodes-base.function",
+      "parameters": {
+        "functionCode": "return [{json: {action: 'crop_plan', status: 'ok'}}];"
+      }
+    },
+    {
+      "id": "3",
+      "name": "Blockchain Microinvestment",
+      "type": "n8n-nodes-base.function",
+      "parameters": {
+        "functionCode": "return [{json: {action: 'investment', status: 'ok'}}];"
+      }
+    },
+    {
+      "id": "4",
+      "name": "Mutual Aid Network",
+      "type": "n8n-nodes-base.function",
+      "parameters": {
+        "functionCode": \"return [{json: {action: 'aid_request', status: 'ok'}}];\"
+      }
+    },
+    {
+      "id": "5",
+      "name": "Merchant Trading",
+      "type": "n8n-nodes-base.function",
+      "parameters": {
+        "functionCode": \"return [{json: {action: 'trade', status: 'ok'}}];\"
+      }
+    },
+    {
+      "id": "6",
+      "name": "Producer Management",
+      "type": "n8n-nodes-base.function",
+      "parameters": {
+        "functionCode": \"return [{json: {action: 'producer_data', status: 'ok'}}];\"
+      }
+    },
+    {
+      "id": "7",
+      "name": "Route Requests",
+      "type": "n8n-nodes-base.switch",
+      "parameters": {
+        "property": "action",
+        "rules": [
+          {"operation": "equal", "value": "crop_plan"},
+          {"operation": "equal", "value": "investment"},
+          {"operation": "equal", "value": "aid_request"},
+          {"operation": "equal", "value": "trade"},
+          {"operation": "equal", "value": "producer_data"}
+        ]
+      }
+    }
+  ],
+  "connections": {
+    "1": {
+      "main": [
+        [{"node": "Route Requests", "type": "main", "index": 0}]
+      ]
+    },
+    "Route Requests": {
+      "main": [
+        [{"node": "AI Crop Planning", "type": "main", "index": 0}],
+        [{"node": "Blockchain Microinvestment", "type": "main", "index": 0}],
+        [{"node": "Mutual Aid Network", "type": "main", "index": 0}],
+        [{"node": "Merchant Trading", "type": "main", "index": 0}],
+        [{"node": "Producer Management", "type": "main", "index": 0}]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "regular"
+  }
+}

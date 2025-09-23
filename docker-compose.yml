@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  voice-assistant:
+    build: ./services/voice-assistant
+    ports:
+      - "5001:5001"
+
+  lerobot-smolvla:
+    build: ./services/lerobot-smolvla
+    ports:
+      - "5002:5002"
+
+  blockchain-node:
+    build: ./services/blockchain-node
+    ports:
+      - "8545:8545"
+
+  gis-mapping:
+    build: ./services/gis-mapping
+    ports:
+      - "8080:8080"
+
+  env-monitor:
+    build: ./services/env-monitor
+    devices:
+      - "/dev/i2c-1:/dev/i2c-1"
