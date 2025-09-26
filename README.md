@@ -27,6 +27,6 @@ Integrates with **Black-Market-COA** for decentralized trade, microinvestments, 
 
 ### Setup
 ```bash
-git clone https://github.com/<your-username>/rpi-agri-ai-tablet.git
-cd rpi-agri-ai-tablet
+git clone https://github.com/bruce-lee-of-php/Ibis-brain-docker.git
+cd Ibis-brain-docker
 docker compose up --build
