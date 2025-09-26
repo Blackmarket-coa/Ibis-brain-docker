@@ -19,7 +19,7 @@ services:
   gis-mapping:
     build: ./services/gis-mapping
     ports:
-      - "8081:8080"
+      - "8080:8080"
 
 # Commented out to run on macos or windows, 
 # uncomment for pi or linux when environmental- 
