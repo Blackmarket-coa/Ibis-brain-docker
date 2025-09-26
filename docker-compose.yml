@@ -21,10 +21,50 @@ services:
     ports:
       - "8080:8080"
 
+  # --- New Services for Meshtastic ---
+
+  meshtastic-mqtt:
+    # --- MODIFIED ---
+    # Instead of pulling the image, we now build our custom Dockerfile
+    build: ./services/meshtastic-mqtt
+    # The 'image' line is no longer needed
+    container_name: meshtastic-mqtt
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      # We no longer need to mount the config file, but we keep the data and log mounts
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+
+# Uncomment this once a meshtastic radio is 
+# plugged in. Has not been tested.
+
+  # meshtastic-node:
+  #   image: meshtastic/meshtastic
+  #   container_name: meshtastic-node
+  #   restart: unless-stopped
+  #   devices:
+  #     # IMPORTANT: You must change /dev/ttyUSB0 to match your radio's device path!
+  #     - "/dev/ttyUSB0:/dev/ttyUSB0"
+  #   command:
+  #     # These flags configure the daemon to connect to our MQTT broker
+  #     - "--host"
+  #     - "0.0.0.0"
+  #     - "--set"
+  #     - "mqtt_server"
+  #     - "meshtastic-mqtt" # This is the service name of our broker
+  #     - "--set"
+  #     - "mqtt_enabled"
+  #     - "true"
+
 # Commented out to run on macos or windows, 
 # uncomment for pi or linux when environmental- 
 # monitoring is important
-  env-monitor:
-    build: ./services/env-monitor
-    devices:
-      - "/dev/i2c-1:/dev/i2c-1"
+
+  # env-monitor:
+  #   build: ./services/env-monitor
+  #   devices:
+  #     - "/dev/i2c-1:/dev/i2c-1"
+
